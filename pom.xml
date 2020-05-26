@@ -2,11 +2,91 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.aritel.app</groupId>
+	<groupId>net.aritel.apps</groupId>
 	<artifactId>my-local-map</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.200</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-annotations -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>9.4.29.v20200521</version>
+		</dependency>
+	</dependencies>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Codehaus repository</id>
+			<url>http://repository.codehaus.org/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>net.aritel.apps.mylocalmap.MyLocalMapServer</mainClass>
+						</manifest>
+						
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<repositoryLayout>flat</repositoryLayout>
+					<repositoryName>lib</repositoryName>
+					<configurationDirectory>config</configurationDirectory>
+					<generateRepository>true</generateRepository>
+					<installArtifacts>false</installArtifacts>
+					<extraJvmArguments>-Xmx512m</extraJvmArguments>
+					<programs>
+						<program>
+							<mainClass>net.aritel.apps.mylocalmap.MyLocalMapServer</mainClass>
+							<name>mylocalmap</name>
+						</program>
+					</programs>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptor>src/main/assembly/descriptor-bin.xml</descriptor>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-sample-batch-zip</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
