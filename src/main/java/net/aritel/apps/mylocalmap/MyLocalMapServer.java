@@ -2,6 +2,7 @@ package net.aritel.apps.mylocalmap;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Connection;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.SessionIdManager;
@@ -12,6 +13,7 @@ import org.eclipse.jetty.server.session.DefaultSessionIdManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 
+import net.aritel.apps.mylocalmap.db.DB;
 import net.aritel.apps.mylocalmap.servlet.AuthenticatedResourceHandler;
 import net.aritel.apps.mylocalmap.servlet.LoginServlet;
 
@@ -68,8 +70,12 @@ public class MyLocalMapServer {
 		// Start things up!
 		server.start();
 
+		// TODO dummy
+		try (Connection con = DB.getConnection()) {}
+
 		// The use of server.join() the will make the current thread join and
 		// wait until the server thread is done executing.
 		server.join();
+		
 	}
 }
