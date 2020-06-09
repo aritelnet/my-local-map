@@ -29,7 +29,7 @@ html, body {
 #content {
 	width: calc(100% - 250px);
 	transition: all 0.3s;
-	overflow-y: scroll;
+	overflow: hidden;
 }
 
 #content.active {

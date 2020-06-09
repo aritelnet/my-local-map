@@ -28,12 +28,12 @@ public class MyLocalMapServer {
 		ResourceHandler authenticatedResourceHandler = new AuthenticatedResourceHandler();
 		authenticatedResourceHandler.setResourceBase("src/main/webapps-authenticated/");
 		authenticatedResourceHandler.setDirectoriesListed(false);
-		authenticatedResourceHandler.setCacheControl("no-cache");
+		authenticatedResourceHandler.setCacheControl("no-store,no-cache,must-revalidate");
 
 		ResourceHandler unauthenticatedResourceHandler = new ResourceHandler();
 		unauthenticatedResourceHandler.setResourceBase("src/main/webapps-unauthenticated/");
 		unauthenticatedResourceHandler.setDirectoriesListed(false);
-		unauthenticatedResourceHandler.setCacheControl("no-cache");
+		unauthenticatedResourceHandler.setCacheControl("no-store,no-cache,must-revalidate");
 
 		// The ServletHandler is a dead simple way to create a context handler
 		// that is backed by an instance of a Servlet.
