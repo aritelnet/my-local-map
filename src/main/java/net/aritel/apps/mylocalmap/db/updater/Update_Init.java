@@ -18,7 +18,7 @@ public class Update_Init {
 		try (Statement st = con.createStatement()) {
 			st.executeUpdate("CREATE TABLE app_version (id int auto_increment, version int)");
 			st.executeUpdate("INSERT INTO app_version values(null, 1)");
-			st.executeUpdate("CREATE TABLE maps (id long auto_increment, name varchar, image BLOB)");
+			st.executeUpdate("CREATE TABLE map_units (id long auto_increment, name varchar, image BLOB)");
 		}
 	}
 }
