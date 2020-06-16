@@ -1,3 +1,4 @@
+var map;
 $(function(){
 	// Bind events.
 	// $('#createNewUnit').click(showDialogCreateNewUnit);
@@ -6,7 +7,7 @@ $(function(){
 	// Init Map-units
 	initMapUnits();
 	
-	var map = new ol.Map({
+	map = new ol.Map({
 		target: 'content',
 		layers: [
 			new ol.layer.Tile({
@@ -32,7 +33,7 @@ function initMapUnits() {
 		.done(function(data){
 			for (const p of data) {
 				$('<div />', {}).appendTo('#sidebar')
-					.append($('<a />', {text : p.name, href : '#' + p.id}));
+					.append($('<a />', {text : p.name, href : '#id=' + p.id}));
 			}
 		});
 }//sidebar
@@ -71,7 +72,32 @@ function parseParms(str) {
 }
 
 function windowOnHashChange(e) {
-    alert(parseParms(location.hash.substring(1)));
+    var param = parseParms(location.hash.substring(1));
+    var layers = map.getLayers();
+    layers.forEach(function(e,i,a){
+    	map.removeLayer(e);
+    });
+    if (param.id){
+    	var extent = [0, 0, 1024, 968];
+    	var projection = new ol.proj.Projection({
+  code: 'xkcd-image',
+  units: 'pixels',
+  extent: extent
+});
+	    map.addLayer(new ol.layer.Image({
+	    	source : new ol.source.ImageStatic({
+	    		url : '/api/map-units/' + param.id + '/image',
+	    		projection: projection,
+	    		imageExtent: extent
+	    	})
+	    }));
+	    map.setView(new ol.View({
+    projection: projection,
+    center: ol.extent.getCenter(extent),
+    zoom: 2,
+    maxZoom: 8
+  }));
+	}
 }
 
 function parseParms(str) {

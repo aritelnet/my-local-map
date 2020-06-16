@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -75,4 +76,18 @@ public class MapUnitsApi {
 		return "[]";
 	}
 
+	@GET
+	@Path("{id}/image")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public byte[] getImage(@PathParam("id") String id) {
+		try (Connection con = DB.getConnection()) {
+			MapUnit unit = MapUnit.find(con, Long.parseLong(id));
+			return unit.getImage();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }
