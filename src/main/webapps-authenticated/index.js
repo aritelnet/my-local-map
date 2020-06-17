@@ -8,7 +8,7 @@ $(function(){
 	initMapUnits();
 	
 	map = new ol.Map({
-		target: 'content',
+		target: 'map',
 		layers: [
 			new ol.layer.Tile({
 				source: new ol.source.OSM()
@@ -32,8 +32,8 @@ function initMapUnits() {
 			})
 		.done(function(data){
 			for (const p of data) {
-				$('<div />', {}).appendTo('#sidebar')
-					.append($('<a />', {text : p.name, href : '#id=' + p.id}));
+				$('<div />', {class : 'row'}).appendTo('#sidebar')
+					.append($('<a />', {class: 'bd-toc-link', text : p.name, href : '#id=' + p.id}));
 			}
 		});
 }//sidebar

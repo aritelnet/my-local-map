@@ -18,12 +18,29 @@
 			<nav class="row navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">My Local Map</a>
 				<button id="createNewUnit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogCreateMapUnit">
-  New
-</button>
+				  New
+				</button>
 			</nav>
-			<div class="row flex-fill">
-				<nav id="sidebar"></nav>
-				<div id="content"></div>
+			<div class="row flex-fill" style="overflow-y:hidden">
+				<div class="d-flex flex-row h-100 w-100">
+					<nav id="sidebar" class="container-fluid h-100 d-flex flex-column"></nav>
+					<div id="content" class="col flex-fill">
+						<div class="h-100 d-flex flex-column">
+							<div id="toolbar" class="row">THE_TOOL_BAR</div>
+							<div id="map" class="row flex-fill"></div>
+						</div>
+					</div>
+				</div>
+				
+<!--
+				
+				<div id="content">
+					<div class="container-fluid h-100 d-flex flex-column">
+						<div id="toolbar" class="row">THE_TOOL_BAR</div>
+						<div id="map" class="row flex-fill"></div>
+					</div>
+				</div>
+-->
 			</div>
 		</div>
 <div class="modal fade" id="dialogCreateMapUnit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
