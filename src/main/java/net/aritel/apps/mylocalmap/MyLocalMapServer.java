@@ -1,5 +1,6 @@
 package net.aritel.apps.mylocalmap;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -37,17 +38,23 @@ public class MyLocalMapServer {
 		serHol.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
 		serHol.setInitParameter("jersey.config.server.provider.classnames", "org.glassfish.jersey.media.multipart.MultiPartFeature");
 		context.addServlet(serHol, "/api/*");
-		
+
 		// Static items in authenticated scope.
 		ResourceHandler authenticatedResourceHandler = new AuthenticatedResourceHandler();
-		authenticatedResourceHandler.setResourceBase("src/main/webapps-authenticated/");
+		if (new File("src/main/webapps-authenticated/").exists())
+			authenticatedResourceHandler.setResourceBase("src/main/webapps-authenticated/");
+		else
+			authenticatedResourceHandler.setResourceBase("../webapps-authenticated/");
 		authenticatedResourceHandler.setDirectoriesListed(false);
 		authenticatedResourceHandler.setCacheControl("no-store,no-cache,must-revalidate");
 		handlers.addHandler(authenticatedResourceHandler);
 
 		// Static images in unauthenticated scope.
 		ResourceHandler unauthenticatedResourceHandler = new ResourceHandler();
-		unauthenticatedResourceHandler.setResourceBase("src/main/webapps-unauthenticated/");
+		if (new File("src/main/webapps-authenticated/").exists())
+			unauthenticatedResourceHandler.setResourceBase("src/main/webapps-unauthenticated/");
+		else
+			unauthenticatedResourceHandler.setResourceBase("../webapps-unauthenticated/");
 		unauthenticatedResourceHandler.setDirectoriesListed(false);
 		unauthenticatedResourceHandler.setCacheControl("no-store,no-cache,must-revalidate");
 		handlers.addHandler(unauthenticatedResourceHandler);
