@@ -63,7 +63,7 @@ public class MapUnit {
 		return null;
 	}
 	
-	public static List<MapUnit> findAll(Connection con) throws SQLException {
+	public static List<MapUnit> findAll(Connection con, boolean image) throws SQLException {
 		List<MapUnit> list = new ArrayList<MapUnit>();
 		try (PreparedStatement ps = con.prepareStatement("SELECT * FROM map_units")) {
 			try (ResultSet rs = ps.executeQuery()) {
@@ -71,7 +71,9 @@ public class MapUnit {
 					MapUnit o = new MapUnit();
 					o.setId(rs.getLong("id"));
 					o.setName(rs.getString("name"));
-					o.setImage(rs.getBytes("image"));
+					if (image) {
+						o.setImage(rs.getBytes("image"));
+					}
 					list.add(o);
 				}
 			}

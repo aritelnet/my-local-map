@@ -67,7 +67,7 @@ public class MapUnitsApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String list() {
 		try (Connection con = DB.getConnection()) {
-			List<MapUnit> list = MapUnit.findAll(con);
+			List<MapUnit> list = MapUnit.findAll(con, false);
 			return new Gson().toJson(list);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
