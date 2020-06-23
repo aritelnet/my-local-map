@@ -71,6 +71,7 @@ function parseParms(str) {
     return data;
 }
 
+var source;
 function windowOnHashChange(e) {
     var param = parseParms(location.hash.substring(1));
     var layers = map.getLayers();
@@ -80,10 +81,10 @@ function windowOnHashChange(e) {
     if (param.id){
     	var extent = [0, 0, 1024, 968];
     	var projection = new ol.proj.Projection({
-  code: 'xkcd-image',
-  units: 'pixels',
-  extent: extent
-});
+		  code: 'xkcd-image',
+		  units: 'pixels',
+		  extent: extent
+		});
 	    map.addLayer(new ol.layer.Image({
 	    	source : new ol.source.ImageStatic({
 	    		url : '/api/map-units/' + param.id + '/image',
@@ -91,13 +92,30 @@ function windowOnHashChange(e) {
 	    		imageExtent: extent
 	    	})
 	    }));
+	    source = new ol.source.Vector({wrapX: false});
+	    map.addLayer(new ol.layer.Vector({
+  source: source
+}));
+		resetInteraction(source);
 	    map.setView(new ol.View({
-    projection: projection,
-    center: ol.extent.getCenter(extent),
-    zoom: 2,
-    maxZoom: 8
-  }));
+		    projection: projection,
+		    center: ol.extent.getCenter(extent),
+		    zoom: 2,
+		    maxZoom: 8
+		  }));
 	}
+}
+
+var draw; // global so we can remove it later
+function resetInteraction(source) {
+  if (draw) {
+    map.removeInteraction(draw);
+  }
+    draw = new ol.interaction.Draw({
+      source: source,
+      type: 'LineString'
+    });
+    map.addInteraction(draw);
 }
 
 function parseParms(str) {
