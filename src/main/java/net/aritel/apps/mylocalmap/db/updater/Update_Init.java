@@ -2,13 +2,16 @@ package net.aritel.apps.mylocalmap.db.updater;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Update_Init {
 	public boolean check(Connection con) {
 		try (PreparedStatement ps = con.prepareStatement("SELECT * FROM app_version")) {
-			return ps.executeQuery().next();
+			try (ResultSet rs = ps.executeQuery()) {
+				return rs.next();
+			}
 		} catch (Exception e) {
 			return false;
 		}

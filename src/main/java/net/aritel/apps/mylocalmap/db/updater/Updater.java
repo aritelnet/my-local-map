@@ -9,6 +9,9 @@ public class Updater {
 		if (!new Update_Init().check(con)) {
 			new Update_Init().update(con);
 		}
+		if (!new Update_1().check(con)) {
+			new Update_1().update(con);
+		}
 		
 		
 		

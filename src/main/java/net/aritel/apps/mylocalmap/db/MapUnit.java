@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MapUnit {
 	private long id;
@@ -31,10 +32,11 @@ public class MapUnit {
 		this.image = image;
 	}
 	public int insert(Connection con) throws SQLException {
-		StringBuilder sql = new StringBuilder("INSERT INTO map_units (name, image) VALUES (?, ?)");
+		StringBuilder sql = new StringBuilder("INSERT INTO map_units (uuid, name, image) VALUES (?, ?, ?)");
 		try (PreparedStatement ps = con.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS)) {
-			ps.setString(1, getName());
-			ps.setBytes(2, getImage());
+			ps.setString(1, UUID.randomUUID().toString());
+			ps.setString(2, getName());
+			ps.setBytes(3, getImage());
 			int i = ps.executeUpdate();
 			if (i > 0) {
 				try (ResultSet rs = ps.getGeneratedKeys()) {
